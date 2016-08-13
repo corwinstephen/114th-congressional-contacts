@@ -1,0 +1,15 @@
+{
+  "name": "114th-congressional-contacts",
+  "version": "1.0.0",
+  "description": "some scripts for analyzing congressional contacts data",
+  "main": "00-get-data.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "@micahstubbs <micahstubbs@gmail.com> (https://github.com/micahstubbs)",
+  "license": "CC0-1.0",
+  "dependencies": {
+    "csv-write-stream": "^2.0.0",
+    "xlsx": "^0.8.0"
+  }
+}
