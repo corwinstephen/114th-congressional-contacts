@@ -3,21 +3,23 @@ const d3  = require('d3-dsv');
 const csvWriter = require('csv-write-stream');
 
 // Download the Node helper library from twilio.com/docs/node/install
-// These are your accountSid and authToken from twilio.com/user/account
-const accountSid = 'AC8e976f8d1f386887e1c6e84809744650';
-const authToken = 'your_auth_token';
+// accountSid and authToken from twilio.com/user/account
+// https://www.twilio.com/docs/api/lookups
 const LookupsClient = require('twilio').LookupsClient;
-const client = new LookupsClient(accountSid, authToken);
+const client = new LookupsClient('TWILIO_ACCOUNT_SID', 'TWILIO_AUTH_TOKEN');
 
 const csvfile = 'memberCells.csv';
 const inputData = d3.csvParse(fs.readFileSync(csvfile, 'utf8'));
 
 // now let's focus on just cell phone numbers
 const enrichedData = [];
-inputData.forEach(d => {
+inputData.some(d => {
 
-  // convert to E.164 format
-  
+  // convert to E.164 format https://en.wikipedia.org/wiki/E.164
+  const withoutDashes = d.memberCell.replace(/-/g, '');
+  console.log('withoutDashes', withoutDashes);
+  const E164Number =  `+1${withoutDashes}`;
+  console.log('E164Number', E164Number);
 
   enrichedData.push({
     memberName: d.memberName,
@@ -29,13 +31,15 @@ inputData.forEach(d => {
     term: d.term,
     memberCell: d.memberCell
   })
+
+  return true;
 })
 
 const outputData = enrichedData;
 
 // write a csv file
 const writer = csvWriter();
-writer.pipe(fs.createWriteStream('memberCells.csv'));
+writer.pipe(fs.createWriteStream('memberCellsCarriers.csv'));
 outputData.forEach(d => {
   writer.write(d);
 })
