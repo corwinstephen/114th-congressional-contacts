@@ -9,7 +9,11 @@
   "author": "@micahstubbs <micahstubbs@gmail.com> (https://github.com/micahstubbs)",
   "license": "CC0-1.0",
   "dependencies": {
+    "babel": "^6.5.2",
+    "babel-cli": "^6.11.4",
+    "babel-preset-es2017": "^1.6.1",
     "csv-write-stream": "^2.0.0",
+    "lodash": "^4.15.0",
     "twilio": "^2.9.2",
     "xlsx": "^0.8.0"
   }
