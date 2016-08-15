@@ -24,29 +24,27 @@ const currentE164Number =  `+1${withoutDashes}`;
 // console.log('E164Number', E164Number);
 
 // get the carrier data from the twilio API
-async function getCarrierMetadata(E164Number) {
+async function getMetadata(E164Number) {
   try {
-    await client.phoneNumbers(E164Number).get({
+    let carrierMetadata = await client.phoneNumbers(E164Number).get({
         type: 'carrier'
       }, function (error, number) {
-      const response = {};
-      if (error) { console.log('error', error) };
-      console.log('carrier response from twilio API', number);
-      response.carrierErrorCode = number.carrier.error_code;
-      response.carrierType = number.carrier.type;
-      response.carrierName = number.carrier.name;
-      response.mobileNetworkCode = number.carrier.mobile_network_code;
-      response.mobileCountryCode = number.carrier.mobile_country_code;
-      return response;
-    });
+        const response = {};
+        if (error) { console.log('error', error) };
+        // console.log('carrier response from twilio API', number);
+        response.carrierErrorCode = number.carrier.error_code;
+        response.carrierType = number.carrier.type;
+        response.carrierName = number.carrier.name;
+        response.mobileNetworkCode = number.carrier.mobile_network_code;
+        response.mobileCountryCode = number.carrier.mobile_country_code;
+        return response;
+      });
   } catch(error) {
     console.error(error);
   }
-}
 
-async function getCallerMetadata(E164Number) {
   try {
-    await client.phoneNumbers(E164Number).get({
+    let callerMetadata = await client.phoneNumbers(E164Number).get({
       type: 'caller-name'
     }, function (error, number) {
       const response = {};
@@ -60,28 +58,22 @@ async function getCallerMetadata(E164Number) {
   } catch(error) {
     console.error(error);
   }
-}
 
-async function writeToCsv() {
-  try {
-    const carrierMetadata = await getCarrierMetadata(currentE164Number);
-    // const callerMetadata = await getCallerMetadata(currentE164Number);
-    // let result = d;
-    // result = _.assign(result, carrierMetadata);
-    // result = _.assign(result, callerMetadata);
-    // console.log('result', result);
-    const outputData = [];
-    outputData.push(carrierMetadata);
-    // write a csv file
-    const writer = csvWriter();
-    writer.pipe(fs.createWriteStream('memberCellsCarriers.csv'));
-    outputData.forEach(d => {
-      writer.write(d);
-    })
-    writer.end();
-  } catch(error) {
-    console.error(error);
-  }
-}
-writeToCsv();
+  let result = d;
+  result = _.assign(result, carrierMetadata);
+  result = _.assign(result, callerMetadata);
+  console.log('result', result);
+
+  const outputData = [];
+  outputData.push(result);
+  // write a csv file
+  const writer = csvWriter();
+  writer.pipe(fs.createWriteStream('memberCellsCarriers.csv'));
+  outputData.forEach(d => {
+    writer.write(d);
+  })
+  writer.end();
+};
+
+getMetadata(currentE164Number);
 console.log('this will print first to show that I am async!')
