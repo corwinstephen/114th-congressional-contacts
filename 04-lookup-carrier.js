@@ -3,6 +3,9 @@ const d3 = require('d3-dsv');
 const _ = require('lodash');
 const csvWriter = require('csv-write-stream');
 
+// use this command to run this script with babel-cli
+// $ ./node_modules/.bin/babel-node 04-lookup-carrier.js
+
 // Download the Node helper library from twilio.com/docs/node/install
 // accountSid and authToken from twilio.com/user/account
 // https://www.twilio.com/docs/api/lookups
