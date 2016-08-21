@@ -1,0 +1,9 @@
+carrier,type
+,"Bandwidth SMSEnabled","voip"
+,"Twilio",voip
+,"AT&T Mobility",mobile
+,"PTI-Pacifica",mobile
+,"T-Mobile USA, Inc.",mobile
+,"Sprint Spectrum, L.P.",mobile
+,"AT&T Wireless",mobile
+,"Verizon Wireless",mobile
